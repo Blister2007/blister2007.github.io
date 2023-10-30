@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('dragon-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #calculator {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 5px;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+        .button {
+            width: 100%;
+            height: 50px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .black {
+            background-color: #000;
+            color: #fff;
+        }
+        .white {
+            background-color: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <h1>Dragon Calculator</h1>
+        <input type="text" id="display" placeholder="0" readonly>
+        <div class="button-grid">
+            <button class="black" onclick="addToDisplay('7')">7</button>
+            <button class="black" onclick="addToDisplay('8')">8</button>
+            <button class="black" onclick="addToDisplay('9')">9</button>
+            <button class="white" onclick="addToDisplay('+')">+</button>
+            <button class="black" onclick="addToDisplay('4')">4</button>
+            <button class="black" onclick="addToDisplay('5')">5</button>
+            <button class="black" onclick="addToDisplay('6')">6</button>
+            <button class="white" onclick="addToDisplay('-')">-</button>
+            <button class="black" onclick="addToDisplay('1')">1</button>
+            <button class="black" onclick="addToDisplay('2')">2</button>
+            <button class="black" onclick="addToDisplay('3')">3</button>
+            <button class="white" onclick="addToDisplay('*')">*</button>
+            <button class="white" onclick="clearDisplay()">C</button>
+            <button class="black" onclick="addToDisplay('0')">0</button>
+            <button class="black" onclick="calculate()">=</button>
+            <button class="white" onclick="addToDisplay('/')">/</button>
+            <button class="black" onclick="addToDisplay('%')">%</button>
+            <button class="black" onclick="addToDisplay('^')">^</button>
+            <button class="black" onclick="addToDisplay('Math.sqrt(')">√</button>
+            <button class="white" onclick="addToDisplay('!')">!</button>
+            <button class="black" onclick="addToDisplay('|')">|</button>
+            <button class="black" onclick="addToDisplay('Math.sin(')">sin</button>
+            <button class="black" onclick="addToDisplay('Math.cos(')">cos</button>
+            <button class="white" onclick="addToDisplay('Math.tan(')">tan</button>
+            <button class="white" onclick="addToDisplay('Math.log(')">log</button>
+            <button class="black" onclick="addToDisplay('Math.PI')">π</button>
+            <button class="black" onclick="addToDisplay('Math.log(')">ln</button>
+            <button class="black" onclick="addToDisplay('Math.cbrt(')">³√</button>
+            <button class="white" onclick="addToDisplay('1/')">1/x</button>
+            <button class="white" onclick="addToDisplay('Math.pow(')">^</button>
+            <button class="black" onclick="addToDisplay('Math.abs(')">abs</button>
+            <button class="black" onclick="addToDisplay('Math.floor(')">floor</button>
+        </div>
+    </div>
+
+    <script>
+        function addToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                const displayValue = document.getElementById('display').value;
+                const sanitizedValue = displayValue
+                    .replace(/Math.sqrt\(/g, 'Math.sqrt(')
+                    .replace(/Math.sin\(/g, 'Math.sin(')
+                    .replace(/Math.cos\(/g, 'Math.cos(')
+                    .replace(/Math.tan\(/g, 'Math.tan(')
+                    .replace(/Math.log\(/g, 'Math.log(')
+                    .replace(/Math.cbrt\(/g, 'Math.cbrt(')
+                    .replace(/Math.pow\(/g, 'Math.pow(')
+                    .replace(/Math.abs\(/g, 'Math.abs(')
+                    .replace(/Math.floor\(/g, 'Math.floor(');
+                document.getElementById('display').value = eval(sanitizedValue);
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
