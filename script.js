@@ -8,7 +8,10 @@ const main = document.getElementById("main");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 
-getUser("nileshkr17");
+// Load information for the default user on page load
+window.addEventListener("load", () => {
+    getUser("blister2007");
+});
 
 async function getUser(username) {
     const resp = await fetch(APIURL + username);
@@ -34,7 +37,7 @@ function createUserCard(user) {
             </div>
             <div class="user-info">
                 <h2>${user.name}</h2>
-                <p>${user.bio}</p>
+                <p>${user.bio || "No bio available."}</p>
                 <ul class="info">
                     <li>${user.followers}<strong>Followers</strong></li>
                     <li>${user.following}<strong>Following</strong></li>
