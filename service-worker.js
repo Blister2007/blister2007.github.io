@@ -1,7 +1,7 @@
 
 self.addEventListener("install", (event) => {
   console.log("Service worker install event!");
-  ttps://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil
+  
   event.waitUntil(
     caches
       .open(cacheName)
