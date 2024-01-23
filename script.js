@@ -78,9 +78,14 @@ function fetchData(url) {
     return fetch(url)
         .then(response => {
             if (!response.ok) {
+                console.error(`Error: ${response.status} - ${response.statusText}`);
                 throw new Error('Network response was not ok');
             }
             return response.json();
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            throw error;
         });
 }
 
@@ -128,4 +133,7 @@ function displayFollowing(following) {
         followingDiv.innerHTML += '<p>Not following anyone.</p>';
     } else {
         following.forEach(user => {
-            followingDiv.innerHTML += `<p>${user
+            followingDiv.innerHTML += `<p>${user.login}</p>`;
+        });
+    }
+}
