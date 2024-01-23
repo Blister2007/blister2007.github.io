@@ -8,7 +8,7 @@ const main = document.getElementById("main");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 
-// Load information for the default user on page load
+// Load information for the default user on page load (replace "blister2007" with your desired default user)
 window.addEventListener("load", () => {
     getUser("blister2007");
 });
