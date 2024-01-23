@@ -7,25 +7,24 @@
     <title>GitHub Robot Info</title>
 </head>
 <body>
-    <div class="container">
-        <h1>GitHub Robot Info</h1>
-        <div class="input-container">
-            <input type="text" id="username" placeholder="Enter GitHub username">
-            <button onclick="getUserData()">Get User Info</button>
+    <div class="robot-container">
+        <div class="robot-head">
+            <div class="robot-eye"></div>
+            <div class="robot-eye"></div>
         </div>
-
-        <div id="user-info" class="info-section"></div>
-        
-        <div class="button-container">
-            <button id="repo-button" onclick="getRepositories()">Get Repositories</button>
-            <button id="followers-button" onclick="getFollowers()">Get Followers</button>
-            <button id="following-button" onclick="getFollowing()">Get Following</button>
+        <div class="robot-body">
+            <h1>GitHub Robot Info</h1>
+            <form id="form">
+                <input type="text" id="search" placeholder="Enter GitHub username">
+                <button type="submit">Search</button>
+            </form>
+            <div id="main"></div>
+            <div class="button-container">
+                <button id="followers-button" onclick="getFollowers()">Get Followers</button>
+                <button id="following-button" onclick="getFollowing()">Get Following</button>
+                <button id="repositories-button" onclick="getRepositories()">Get Repositories</button>
+            </div>
         </div>
-
-        <div id="repositories" class="info-section"></div>
-        <div id="followers" class="info-section"></div>
-        <div id="following" class="info-section"></div>
-        <div id="error-message"></div>
     </div>
 
     <script src="script.js"></script>
