@@ -1,139 +1,92 @@
-function getUserData() {
-    const username = document.getElementById('username').value.trim();
-
-    if (username) {
-        showLoading();
-        fetchData(`https://api.github.com/users/${username}`)
-            .then(data => {
-                hideLoading();
-                displayUserInfo(data);
-            })
-            .catch(error => {
-                hideLoading();
-                displayError('Error fetching user data. Please try again.');
-            });
-    } else {
-        displayError('Please enter a GitHub username.');
-    }
+if ("serviceWorker" in navigator) {
+    // register service worker
+    navigator.serviceWorker.register("service-worker.js");
 }
 
-function getRepositories() {
-    const username = document.getElementById('username').value.trim();
+const APIURL = "https://api.github.com/users/";
+const main = document.getElementById("main");
+const form = document.getElementById("form");
+const search = document.getElementById("search");
 
-    if (username) {
-        showLoading('repo-button');
-        fetchData(`https://api.github.com/users/${username}/repos`)
-            .then(repositories => {
-                hideLoading('repo-button');
-                displayRepositories(repositories);
-            })
-            .catch(error => {
-                hideLoading('repo-button');
-                displayError('Error fetching repositories. Please try again.');
-            });
-    } else {
-        displayError('Please enter a GitHub username.');
-    }
+getUser("nileshkr17");
+
+async function getUser(username) {
+    const resp = await fetch(APIURL + username);
+    const respData = await resp.json();
+
+    createUserCard(respData);
+
+    // Optional: Pre-fetch repositories to speed up the process
+    getRepos(username);
 }
 
+async function getRepos(username) {
+    const resp = await fetch(APIURL + username + "/repos");
+    const respData = await resp.json();
+    addReposToCard(respData);
+}
+
+function createUserCard(user) {
+    const cardHTML = `
+        <div class="card">
+            <div>
+                <img class="avatar" src="${user.avatar_url}" alt="${user.name}" />
+            </div>
+            <div class="user-info">
+                <h2>${user.name}</h2>
+                <p>${user.bio}</p>
+                <ul class="info">
+                    <li>${user.followers}<strong>Followers</strong></li>
+                    <li>${user.following}<strong>Following</strong></li>
+                    <li>${user.public_repos}<strong>Public Repositories</strong></li>
+                </ul>
+                <div id="repos"></div>
+            </div>
+        </div>
+    `;
+
+    main.innerHTML = cardHTML;
+}
+
+function addReposToCard(repos) {
+    const reposEl = document.getElementById("repos");
+
+    repos
+        .sort((a, b) => b.stargazers_count - a.stargazers_count)
+        .slice(0, 10)
+        .forEach((repo) => {
+            const repoEl = document.createElement("a");
+            repoEl.classList.add("repo");
+
+            repoEl.href = repo.html_url;
+            repoEl.target = "_blank";
+            repoEl.innerText = repo.name;
+
+            reposEl.appendChild(repoEl);
+        });
+}
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const user = search.value;
+
+    if (user) {
+        getUser(user);
+
+        search.value = "";
+    }
+});
+
+// Additional buttons to fetch user information
 function getFollowers() {
-    const username = document.getElementById('username').value.trim();
-
-    if (username) {
-        showLoading('followers-button');
-        fetchData(`https://api.github.com/users/${username}/followers`)
-            .then(followers => {
-                hideLoading('followers-button');
-                displayFollowers(followers);
-            })
-            .catch(error => {
-                hideLoading('followers-button');
-                displayError('Error fetching followers. Please try again.');
-            });
-    } else {
-        displayError('Please enter a GitHub username.');
-    }
+    // Implement the logic to fetch and display followers here
 }
 
 function getFollowing() {
-    const username = document.getElementById('username').value.trim();
-
-    if (username) {
-        showLoading('following-button');
-        fetchData(`https://api.github.com/users/${username}/following`)
-            .then(following => {
-                hideLoading('following-button');
-                displayFollowing(following);
-            })
-            .catch(error => {
-                hideLoading('following-button');
-                displayError('Error fetching following users. Please try again.');
-            });
-    } else {
-        displayError('Please enter a GitHub username.');
-    }
+    // Implement the logic to fetch and display following users here
 }
 
-function fetchData(url) {
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                console.error(`Error: ${response.status} - ${response.statusText}`);
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-            throw error;
-        });
-}
-
-function displayUserInfo(user) {
-    const userInfoDiv = document.getElementById('user-info');
-    userInfoDiv.innerHTML = `
-        <h2>${user.login}</h2>
-        <img src="${user.avatar_url}" alt="${user.login}" width="100">
-        <p>Followers: ${user.followers}</p>
-        <p>Following: ${user.following}</p>
-    `;
-}
-
-function displayRepositories(repositories) {
-    const repositoriesDiv = document.getElementById('repositories');
-    repositoriesDiv.innerHTML = '<h2>Repositories:</h2>';
-    
-    if (repositories.length === 0) {
-        repositoriesDiv.innerHTML += '<p>No repositories found.</p>';
-    } else {
-        repositories.forEach(repo => {
-            repositoriesDiv.innerHTML += `<p>${repo.name}</p>`;
-        });
-    }
-}
-
-function displayFollowers(followers) {
-    const followersDiv = document.getElementById('followers');
-    followersDiv.innerHTML = '<h2>Followers:</h2>';
-    
-    if (followers.length === 0) {
-        followersDiv.innerHTML += '<p>No followers found.</p>';
-    } else {
-        followers.forEach(follower => {
-            followersDiv.innerHTML += `<p>${follower.login}</p>`;
-        });
-    }
-}
-
-function displayFollowing(following) {
-    const followingDiv = document.getElementById('following');
-    followingDiv.innerHTML = '<h2>Following:</h2>';
-    
-    if (following.length === 0) {
-        followingDiv.innerHTML += '<p>Not following anyone.</p>';
-    } else {
-        following.forEach(user => {
-            followingDiv.innerHTML += `<p>${user.login}</p>`;
-        });
-    }
+function getRepositories() {
+    // Implement the logic to fetch and display repositories here
 }
