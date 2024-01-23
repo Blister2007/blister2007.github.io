@@ -5,7 +5,7 @@ body {
     background-color: #333;
 }
 
-.container {
+.robot-container {
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
@@ -16,20 +16,34 @@ body {
     color: white;
 }
 
+.robot-head {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.robot-eye {
+    width: 30px;
+    height: 30px;
+    background-color: #007BFF;
+    border-radius: 50%;
+}
+
+.robot-body {
+    padding: 20px;
+}
+
 h1 {
     color: #007BFF;
     font-size: 36px;
 }
 
-.input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+form {
+    margin-top: 20px;
 }
 
 input {
-    flex: 1;
-    margin-right: 10px;
     padding: 10px;
     box-sizing: border-box;
     background-color: #555;
@@ -52,23 +66,12 @@ button:hover {
     background-color: #0056b3;
 }
 
+#main {
+    margin-top: 20px;
+}
+
 .button-container {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
-}
-
-.info-section {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #555;
-    border-radius: 5px;
-    background-color: #666;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
-
-#error-message {
-    color: #dc3545;
-    margin-top: 10px;
 }
